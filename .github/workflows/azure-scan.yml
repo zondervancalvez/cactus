@@ -1,0 +1,101 @@
+name: azure-container-image-scan
+
+on:
+  push:
+    # Publish `main` as Docker `latest` image.
+    branches:
+      - main
+
+    # Publish `v1.2.3` tags as releases.
+    tags:
+      - v*
+
+jobs:
+ # Push image to GitHub Packages.
+  # See also https://docs.docker.com/docker-hub/builds/
+  build-tag-push-container:
+    runs-on: ubuntu-20.04
+    env:
+      DOCKER_BUILDKIT: 1
+      DOCKERFILE_PATH: ./packages/cactus-plugin-ledger-connector-fabric/Dockerfile
+      DOCKER_BUILD_DIR: ./packages/cactus-plugin-ledger-connector-fabric/
+    permissions:
+      packages: write
+      contents: read
+
+    steps:
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-besu-all-in-one
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-whitepaper
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-cmd-api-server
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-connector-fabric
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-connector-corda-server
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-connector-besu
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: corda-4-6-all-in-one-obligation
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-corda-4-7-all-in-one-obligation
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: corda-4-8-all-in-one-obligation-publish
+      
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-dev-container-vscode
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-example-carbon-accounting
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-example-supply-chain-app
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-fabric-all-in-one
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-fabric2-all-in-one
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-iroha-all-in-one
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-keychain-vault-server
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-quorum-all-in-one
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-rust-compiler
+
+      - uses: Azure/container-scan@v0.1
+        with:
+          image-name: cactus-test-npm-registry
