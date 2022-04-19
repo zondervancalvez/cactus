@@ -1,0 +1,30 @@
+name: azure-container-image-scan
+
+on:
+  push:
+    # Publish `main` as Docker `latest` image.
+    branches:
+      - main
+
+    # Publish `v1.2.3` tags as releases.
+    tags:
+      - v*
+
+jobs:
+ build-secure-and-push:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+    - uses: Azure/container-scan@v0.1
+      with:
+        image-name: cactus-cmd-api-server
+        username: "badocalvez"
+        password: "bado12345"
