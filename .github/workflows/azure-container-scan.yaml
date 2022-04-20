@@ -1,0 +1,463 @@
+name: azure-container-image-scan
+
+on:
+  push:
+  pull_request:
+    # Publish `main` as Docker `latest` image.
+    branches:
+      - main
+
+    # Publish `v1.2.3` tags as releases.
+    tags:
+      - v*
+
+
+jobs:
+ build-secure-and-push:
+    name: Scan cactus-whitepaper image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Image from Dockerfile
+      run:  DOCKER_BUILDKIT=1 docker build -f ./whitepaper/Dockerfile -t cactus-whitepaper .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+        image-name: cactus-whitepaper
+
+
+ build-secure-and-push-2:
+    name: Scan cactus-cmd-api-server image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./packages/cactus-cmd-api-server/Dockerfile -t cactus-cmd-api-server .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-cmd-api-server
+
+
+ build-secure-and-push-3:
+    name: Scan cactus-besu-all-in-one image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/besu-all-in-one/Dockerfile -t cactus-besu-all-in-one .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-besu-all-in-one
+
+
+ build-secure-and-push-4:
+    name: Scan cactus-connector-corda-server image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./packages/cactus-plugin-ledger-connector-corda/src/main-server/Dockerfile -t cactus-connector-corda-server .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-connector-corda-server
+
+
+ build-secure-and-push-5:
+    name: Scan cactus-connector-besu image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./packages/cactus-plugin-ledger-connector-besu/Dockerfile -t cactus-connector-besu .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-connector-besu
+
+
+ build-secure-and-push-6:
+    name: Scan corda-4-6-all-in-one-obligation image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/corda-all-in-one/Dockerfile -t corda-4-6-all-in-one-obligation .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: corda-4-6-all-in-one-obligation
+
+
+ build-secure-and-push-7:
+    name: Scan cactus-corda-4-7-all-in-one-obligation image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/corda-all-in-one/Dockerfile -t cactus-corda-4-7-all-in-one-obligation .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-corda-4-7-all-in-one-obligation
+
+
+ build-secure-and-push-8:
+    name: Scan cactus-corda-4-8-all-in-one-obligation image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/corda-all-in-one/corda-v4_8/Dockerfile -t cactus-corda-4-8-all-in-one-obligation .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-corda-4-8-all-in-one-obligation
+
+
+ build-secure-and-push-9:
+    name: Scan cactus-dev-container-vscode image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./.devcontainer/Dockerfile -t cactus-dev-container-vscode .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-dev-container-vscode
+
+
+ build-secure-and-push-10:
+    name: Scan cactus-example-supply-chain-app image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./examples/supply-chain-app/Dockerfile -t cactus-example-supply-chain-app .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-example-supply-chain-app
+
+
+ build-secure-and-push-11:
+    name: Scan cactus-fabric-all-in-one image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/fabric-all-in-one/Dockerfile_v1.4.x -t cactus-fabric-all-in-one .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-fabric-all-in-one
+
+
+ build-secure-and-push-12:
+    name: Scan cactus-fabric2-all-in-one image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/fabric-all-in-one/Dockerfile_v2.x -t cactus-fabric2-all-in-one .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-fabric2-all-in-one
+
+
+ build-secure-and-push-13:
+    name: Scan cactus-iroha-all-in-one image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/iroha-all-in-one/Dockerfile -t cactus-iroha-all-in-one .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-iroha-all-in-one
+
+
+ build-secure-and-push-14:
+    name: Scan cactus-keychain-vault-server image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./packages/cactus-plugin-keychain-vault/src/cactus-keychain-vault-server/Dockerfile -t cactus-keychain-vault-server .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-keychain-vault-server
+
+
+ build-secure-and-push-15:
+    name: Scan cactus-quorum-all-in-one image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/quorum-all-in-one/Dockerfile -t cactus-quorum-all-in-one .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-quorum-all-in-one
+
+
+ build-secure-and-push-16:
+    name: Scan cactus-quorum-multi-party-all-in-one image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/quorum-multi-party-all-in-one/Dockerfile -t cactus-quorum-multi-party-all-in-one .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-quorum-multi-party-all-in-one
+
+
+ build-secure-and-push-17:
+    name: Scan cactus-rust-compiler image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/rust-compiler/Dockerfile -t cactus-rust-compiler .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-rust-compiler
+
+
+ build-secure-and-push-18:
+    name: Scan cactus-test-npm-registry image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/test-npm-registry/Dockerfile -t cactus-test-npm-registry .
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-test-npm-registry
