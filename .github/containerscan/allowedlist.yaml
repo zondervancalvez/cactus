@@ -13,7 +13,8 @@ general:
     - CVE-2021-37713
     - CVE-2019-10773
     - CVE-2020-8131
-    - CVE-2021-43138 
+    - CVE-2021-43138
+    - CVE-2022-22143
   bestPracticeViolations:
     - DKL-LI-0003
     - CIS-DI-0006
