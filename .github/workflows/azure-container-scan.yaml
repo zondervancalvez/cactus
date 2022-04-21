@@ -2,6 +2,7 @@ name: azure-container-image-scan
 
 on:
   push:
+  pull_request:
     # Publish `main` as Docker `latest` image.
     branches:
       - main
