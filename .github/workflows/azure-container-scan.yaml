@@ -11,9 +11,6 @@ on:
     tags:
       - v*
 
-env:
-  IMAGE_NAME_1: cactus-whitepaper
-  IMAGE_NAME_2: cactus-cmd-api-server
 
 jobs:
  build-secure-and-push:
@@ -33,14 +30,14 @@ jobs:
 
 
     - name: Build Image from Dockerfile
-      run:  DOCKER_BUILDKIT=1 docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME_1 .
+      run:  DOCKER_BUILDKIT=1 docker build -f ./whitepaper/Dockerfile -t cactus-whitepaper .
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
       id: container-scan
       continue-on-error: true
       with:
-        image-name: $IMAGE_NAME_1
+        image-name: cactus-whitepaper
 
 
  build-secure-and-push-2:
@@ -51,8 +48,6 @@ jobs:
       env:
           # (Required) The token to use to make API calls to GitHub.
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          DOCKER_BUILDKIT: 1
-          DOCKERFILE_PATH: ./packages/cactus-cmd-api-server/Dockerfile
 
     - uses: actions/checkout@v1
     - name: Login to DockerHub Registry
@@ -60,11 +55,11 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run:  DOCKER_BUILDKIT=1 docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME_2 .
+      run: DOCKER_BUILDKIT=1 docker build -f ./packages/cactus-cmd-api-server/Dockerfile -t cactus-cmd-api-server .
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
       id: container-scan
       continue-on-error: true
       with:
-       image-name: $IMAGE_NAME_2
+       image-name: cactus-cmd-api-server
