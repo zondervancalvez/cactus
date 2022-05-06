@@ -33,7 +33,7 @@ jobs:
 
 
     - name: Build Image from Dockerfile
-      run:  docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME_1 .
+      run:  DOCKER_BUILDKIT=1 docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME_1 .
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -52,7 +52,7 @@ jobs:
           # (Required) The token to use to make API calls to GitHub.
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           DOCKER_BUILDKIT: 1
-          DOCKERFILE_PATH: ./whitepaper/Dockerfile
+          DOCKERFILE_PATH: ./packages/cactus-cmd-api-server/Dockerfile
 
     - uses: actions/checkout@v1
     - name: Login to DockerHub Registry
@@ -60,7 +60,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run:  docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME_2 .
+      run:  DOCKER_BUILDKIT=1 docker build -f $DOCKERFILE_PATH -t $IMAGE_NAME_2 .
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
