@@ -53,7 +53,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./packages/cactus-cmd-api-server/Dockerfile -t cactus-cmd-api-server .
+      run: DOCKER_BUILDKIT=1 docker build ./ -f ./packages/cactus-cmd-api-server/Dockerfile -t cactus-cmd-api-server
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -78,7 +78,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/besu-all-in-one/Dockerfile -t cactus-besu-all-in-one .
+      run: DOCKER_BUILDKIT=1 docker build ./tools/docker/besu-all-in-one -f ./tools/docker/besu-all-in-one/Dockerfile -t cactus-besu-all-in-one
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -103,7 +103,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./packages/cactus-plugin-ledger-connector-corda/src/main-server/Dockerfile -t cactus-connector-corda-server .
+      run: DOCKER_BUILDKIT=1 docker build ./packages/cactus-plugin-ledger-connector-corda/src/main-server/ -f ./packages/cactus-plugin-ledger-connector-corda/src/main-server/Dockerfile -t cactus-connector-corda-server
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -128,7 +128,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./packages/cactus-plugin-ledger-connector-besu/Dockerfile -t cactus-connector-besu .
+      run: DOCKER_BUILDKIT=1 docker build ./packages/cactus-plugin-ledger-connector-besu -f ./packages/cactus-plugin-ledger-connector-besu/Dockerfile -t cactus-connector-besu
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -153,7 +153,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/corda-all-in-one/Dockerfile -t corda-4-6-all-in-one-obligation .
+      run: DOCKER_BUILDKIT=1 docker build ./tools/docker/corda-all-in-one/ -f ./tools/docker/corda-all-in-one/Dockerfile -t corda-4-6-all-in-one-obligation
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -178,7 +178,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/corda-all-in-one/Dockerfile -t cactus-corda-4-7-all-in-one-obligation .
+      run: DOCKER_BUILDKIT=1 docker build ./tools/docker/corda-all-in-one/ -f ./tools/docker/corda-all-in-one/Dockerfile -t cactus-corda-4-7-all-in-one-obligation
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -203,7 +203,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/corda-all-in-one/corda-v4_8/Dockerfile -t cactus-corda-4-8-all-in-one-obligation .
+      run: DOCKER_BUILDKIT=1 docker build ./tools/docker/corda-all-in-one/ -f ./tools/docker/corda-all-in-one/corda-v4_8/Dockerfile -t cactus-corda-4-8-all-in-one-obligation
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -228,7 +228,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./.devcontainer/Dockerfile -t cactus-dev-container-vscode .
+      run: DOCKER_BUILDKIT=1 docker build ./.devcontainer/ -f ./.devcontainer/Dockerfile -t cactus-dev-container-vscode
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -253,7 +253,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./examples/supply-chain-app/Dockerfile -t cactus-example-supply-chain-app .
+      run: DOCKER_BUILDKIT=1 docker build ./ -f ./examples/supply-chain-app/Dockerfile -t cactus-example-supply-chain-app
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -278,7 +278,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/fabric-all-in-one/Dockerfile_v1.4.x -t cactus-fabric-all-in-one .
+      run: DOCKER_BUILDKIT=1 docker build ./tools/docker/fabric-all-in-one/ -f ./tools/docker/fabric-all-in-one/Dockerfile_v1.4.x -t cactus-fabric-all-in-one
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -303,7 +303,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/fabric-all-in-one/Dockerfile_v2.x -t cactus-fabric2-all-in-one .
+      run: DOCKER_BUILDKIT=1 docker build ./tools/docker/fabric-all-in-one/ -f ./tools/docker/fabric-all-in-one/Dockerfile_v2.x -t cactus-fabric2-all-in-one
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -328,7 +328,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/iroha-all-in-one/Dockerfile -t cactus-iroha-all-in-one .
+      run: DOCKER_BUILDKIT=1 docker build ./tools/docker/iroha-all-in-one/ -f ./tools/docker/iroha-all-in-one/Dockerfile -t cactus-iroha-all-in-one
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -353,7 +353,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./packages/cactus-plugin-keychain-vault/src/cactus-keychain-vault-server/Dockerfile -t cactus-keychain-vault-server .
+      run: DOCKER_BUILDKIT=1 docker build ./packages/cactus-plugin-keychain-vault/src/cactus-keychain-vault-server/ -f ./packages/cactus-plugin-keychain-vault/src/cactus-keychain-vault-server/Dockerfile -t cactus-keychain-vault-server
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -378,7 +378,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/quorum-all-in-one/Dockerfile -t cactus-quorum-all-in-one .
+      run: DOCKER_BUILDKIT=1 docker build ./tools/docker/quorum-all-in-one/ -f ./tools/docker/quorum-all-in-one/Dockerfile -t cactus-quorum-all-in-one
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -403,7 +403,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/quorum-multi-party-all-in-one/Dockerfile -t cactus-quorum-multi-party-all-in-one .
+      run: DOCKER_BUILDKIT=1 docker build ./tools/docker/quorum-multi-party-all-in-one/ -f ./tools/docker/quorum-multi-party-all-in-one/Dockerfile -t cactus-quorum-multi-party-all-in-one
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -428,7 +428,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/rust-compiler/Dockerfile -t cactus-rust-compiler .
+      run: DOCKER_BUILDKIT=1 docker build ./tools/docker/rust-compiler/ -f ./tools/docker/rust-compiler/Dockerfile -t cactus-rust-compiler
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -453,7 +453,7 @@ jobs:
 
 
     - name: Build Images from Dockerfile
-      run: DOCKER_BUILDKIT=1 docker build -f ./tools/docker/test-npm-registry/Dockerfile -t cactus-test-npm-registry .
+      run: DOCKER_BUILDKIT=1 docker build ./tools/docker/test-npm-registry/ -f ./tools/docker/test-npm-registry/Dockerfile -t cactus-test-npm-registry
 
     - uses: Azure/container-scan@v0.1
       name: Scan image for vulnerabilities
@@ -461,3 +461,27 @@ jobs:
       continue-on-error: true
       with:
        image-name: cactus-test-npm-registry
+
+ build-secure-and-push-19:
+    name: Scan cactus-example-carbon-accounting image
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      env:
+          # (Required) The token to use to make API calls to GitHub.
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+    - uses: actions/checkout@v1
+    - name: Login to DockerHub Registry
+      run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+
+    - name: Build Images from Dockerfile
+      run: DOCKER_BUILDKIT=1 docker build ./ -f ./examples/carbon-accounting/Dockerfile -t cactus-example-carbon-accounting
+
+    - uses: Azure/container-scan@v0.1
+      name: Scan image for vulnerabilities
+      id: container-scan
+      continue-on-error: true
+      with:
+       image-name: cactus-example-carbon-accounting
