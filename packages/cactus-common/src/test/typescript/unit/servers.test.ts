@@ -1,56 +1,50 @@
 import { createServer } from "http";
 import { AddressInfo } from "net";
-
-import test, { Test } from "tape-promise/tape";
+import "jest-extended";
 
 import { Servers } from "../../../main/typescript/index";
 
-test("Servers", async (tParent: Test) => {
-  test("Servers#listen()", async (t: Test) => {
+const testCase = "Servers";
+
+describe(testCase, () => {
+  const server = createServer();
+  const portBlocker = createServer();
+
+  afterAll(async () => {
+    await Servers.shutdown(server);
+    await portBlocker.close();
+  });
+
+  test("Servers#listen()", async () => {
     {
-      const server = createServer();
-      await t.rejects(
+      await expect(
         Servers.listen({
           hostname: "x",
           port: ("" as unknown) as number,
           server,
         }),
-        /options\.port/,
-        "Rejects when port specified as empty string OK",
-      );
+      ).toReject();
     }
 
     {
-      const server = createServer();
-      await t.rejects(
+      await expect(
         Servers.listen({
           hostname: "localhost",
           port: (false as unknown) as number,
           server,
         }),
-        /options\.port/,
-        "Rejects when port specified as literal false boolean OK",
-      );
-      // await Servers.shutdown(server);
+      ).toReject();
     }
 
     {
-      const server = createServer();
-      await t.doesNotReject(
+      await expect(
         Servers.listen({ hostname: "localhost", port: 0, server }),
-        "Does not rejects when port specified as zero OK",
-      );
-      await Servers.shutdown(server);
+      ).toResolve();
     }
 
-    t.end();
-  });
-
-  test("Servers#startOnPreferredPort()", async (t: Test) => {
     const prefPort = 4123;
     const host = "localhost";
-    const portBlocker = createServer();
-    test.onFinish(() => portBlocker.close());
+
     const listenOptionsBlocker = {
       server: portBlocker,
       hostname: host,
@@ -58,22 +52,13 @@ test("Servers", async (tParent: Test) => {
     };
     await Servers.listen(listenOptionsBlocker);
 
-    await t.doesNotReject(async () => {
+    await expect(async () => {
       const server = await Servers.startOnPreferredPort(prefPort, host);
-      test.onFinish(() => server.close());
-      t.ok(server, "Server returned truthy OK");
+      expect(server).toBeTruthy();
       const addressInfo = server.address() as AddressInfo;
-      t.ok(addressInfo, "AddressInfo returned truthy OK");
-      t.ok(addressInfo.port, "AddressInfo.port returned truthy OK");
-      t.doesNotEqual(
-        addressInfo.port,
-        prefPort,
-        "Preferred and actually allocated ports are different, therefore fallback is considered successful OK",
-      );
-    }, "Servers.startOnPreferredPort falls back without throwing OK");
-
-    t.end();
+      expect(addressInfo).toBeTruthy();
+      expect(addressInfo).toBeTruthy();
+      expect(addressInfo.port).not.toBe(prefPort);
+    });
   });
-
-  tParent.end();
 });
