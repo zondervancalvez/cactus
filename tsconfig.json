@@ -23,6 +23,9 @@
       "path": "./packages/cactus-core-api/tsconfig.json"
     },
     {
+      "path": "./packages/cactus-plugin-bungee-hermes/tsconfig.json"
+    },
+    {
       "path": "./packages/cactus-plugin-consortium-manual/tsconfig.json"
     },
     {
@@ -107,6 +110,9 @@
       "path": "./packages/cactus-test-plugin-htlc-eth-besu-erc20/tsconfig.json"
     },
     {
+      "path": "./packages/cactus-test-plugin-keychain-memory/tsconfig.json"
+    },
+    {
       "path": "./packages/cactus-test-plugin-ledger-connector-besu/tsconfig.json"
     },
     {
@@ -168,9 +174,6 @@
     },
     {
       "path": "./extensions/cactus-plugin-htlc-coordinator-besu/tsconfig.json"
-    },
-    {
-      "path": "./packages/cactus-plugin-ledger-connector-ubiquity/tsconfig.json"
     },
     {
       "path": "./packages/cactus-plugin-persistence-fabric/tsconfig.json"
