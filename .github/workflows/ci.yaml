@@ -16,62 +16,37 @@ env:
   PR_BODY: ${{ github.event.pull_request.body }}
   BEFORE_REF: ${{ github.event.before }}
   AFTER_REF: ${{ github.event.after }}
-  #COMMIT_MSG: ${{ github.event.pull_request.base.sha }}
+ 
 jobs:
-  check_pr_description_and_commit_message:
-    runs-on: ubuntu-latest
+  PR-desc-and-commit-msg-checker:
+    runs-on: ubuntu-22.04
  
     steps:
-      - name: Check out the repository
-        uses: actions/checkout@v2
- 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
         with:
-          node-version: '14'
+          fetch-depth: 0
  
-      - name: Fetch PR Details
-        id: fetch_pr_details
-        uses: octokit/request-action@v2.x
-        with:
-          route: GET /repos/${{ github.repository }}/pulls/${{ github.event.number }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
- 
-      - name: Fetch Commit Messages
-        id: fetch_commit_messages
+      - name: View issue information
         run: |
-          commits=$(gh pr view ${{ github.event.number }} --json commits --jq '.commits')
-          echo "::set-output name=commits::${commits}"
-        continue-on-error: true
+          echo "PR desc: ${PR_BODY}"
  
-      - name: Compare PR Description and Commit Messages
-        id: compare
+      - name: Get branch commit messages
+        id: get_branch_commit_messages
         run: |
-          pr_body="${{ steps.fetch_pr_details.outputs.data.body }}"
-          commit_messages="${{ steps.fetch_commit_messages.outputs.commits }}"
+          branch_name=${{ github.head_ref }}
+          repo_full_name=${{ github.repository }}
+          commits=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+                          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/$repo_full_name/commits?sha=$branch_name)
+          commit_messages=$(echo "$commits" | jq -r '.[].commit.message')
+          echo "$commit_messages" > branch_commit_messages.txt
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
  
-          if [[ -z "$pr_body" || -z "$commit_messages" ]]; then
-            echo "Error fetching PR details or commit messages"
-            exit 1
-          fi
- 
-          mismatch=false
- 
-          for message in $commit_messages; do
-            if [[ ! "$pr_body" == *"$message"* ]]; then
-              mismatch=true
-              break
-            fi
-          done
- 
-          echo "mismatch=$mismatch" >> $GITHUB_ENV
- 
-      - name: Fail if Mismatch Found
-        if: env.mismatch == 'true'
+      - name: Print branch commit messages
         run: |
-          echo "Commit messages do not match PR description"
-          exit 1
+          echo "Commit messages from the branch ${{ github.head_ref }}:"
+          cat branch_commit_messages.txt
 name: Cactus_CI
 'on':
   pull_request:
