@@ -33,20 +33,16 @@ jobs:
       - name: Get branch commit messages
         id: get_branch_commit_messages
         run: |
-          branch_name=${{ github.head_ref }}
-          repo_full_name=${{ github.repository }}
-          commits=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-                          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/$repo_full_name/commits?sha=$branch_name)
-          commit_messages=$(echo "$commits" | jq -r '.[0].commit.message')
-          echo "$commit_messages" > branch_commit_messages.txt
+          PR_NUMBER=$(echo "${{ github.event.pull_request.url }}" | cut -d'/' -f7)
+          API_URL="https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/commits"
+          COMMIT_MESSAGES=$(curl -sSL -H "Authorization: token $GITHUB_TOKEN" $API_URL | jq -r '.[].commit.message')
+          echo "::set-output name=commit_messages::${COMMIT_MESSAGES}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
  
       - name: Print branch commit messages
         run: |
-          echo "Commit messages from the branch ${{ github.head_ref }}:"
-          cat branch_commit_messages.txt
+          run: echo "${{ steps.get_commit_messages.outputs.commit_messages }}"
 name: Cactus_CI
 'on':
   pull_request:
