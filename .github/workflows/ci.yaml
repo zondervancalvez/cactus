@@ -34,7 +34,7 @@ jobs:
         id: get_branch_commit_messages
         run: |
           PR_NUMBER=$(echo "${{ github.event.pull_request.url }}" | cut -d'/' -f7)
-          API_URL="https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/commits"
+          API_URL="https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}"
           COMMIT_MESSAGES=$(curl -sSL -H "Authorization: token $GITHUB_TOKEN" $API_URL | jq -r '.[].commit.message')
           echo "::set-output name=commit_messages::${COMMIT_MESSAGES}"
         env:
