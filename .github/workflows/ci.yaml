@@ -33,16 +33,17 @@ jobs:
       - name: Get branch commit messages
         id: get_branch_commit_messages
         run: |
-          PR_NUMBER=$(echo "${{ github.event.pull_request.url }}" | cut -d'/' -f7)
-          API_URL="https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}"
-          COMMIT_MESSAGES=$(curl -sSL -H "Authorization: token $GITHUB_TOKEN" $API_URL | jq -r '.[].commit.message')
-          echo "::set-output name=commit_messages::${COMMIT_MESSAGES}"
+          PR_NUMBER=$(echo "${{ github.event.pull_request.url }}" | grep -oP '\d+$')
+          API_URL="https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/commits"
+          COMMIT_MESSAGES=$(curl -sSL -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "${API_URL}" | jq -r '.[].commit.message')
+          echo "commit_messages" >> ${COMMIT_MESSAGES}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
  
       - name: Print branch commit messages
         run: |
-          run: echo "${{ steps.get_commit_messages.outputs.commit_messages }}"
+          echo "Commit messages:"
+          echo "${{ steps.fetch_commit_messages.outputs.commit_messages }}"
 name: Cactus_CI
 'on':
   pull_request:
