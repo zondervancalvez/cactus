@@ -36,14 +36,14 @@ jobs:
           PR_NUMBER=$(echo "${{ github.event.pull_request.url }}" | grep -oP '\d+$')
           API_URL="https://api.github.com/repos/${{ github.repository }}/pulls/${PR_NUMBER}/commits"
           COMMIT_MESSAGES=$(curl -sSL -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "${API_URL}" | jq -r '.[].commit.message')
-          echo "commit_messages=$COMMIT_MESSAGES" >> $GITHUB_OUTPUT
+          echo "$COMMIT_MESSAGES" > branch_commit_messages.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
  
       - name: Print branch commit messages
         run: |
           echo "Commit messages:"
-          echo "${{ steps.fetch_commit_messages.outputs.commit_messages }}"
+          cat branch_commit_messages.txt
 name: Cactus_CI
 'on':
   pull_request:
