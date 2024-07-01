@@ -26,7 +26,7 @@ jobs:
         with:
           fetch-depth: 0
  
-      - name: View issue information
+      - name: Get PR description
         run: |
           echo "PR desc: ${PR_BODY}"
  
@@ -44,6 +44,20 @@ jobs:
         run: |
           echo "Commit messages:"
           cat branch_commit_messages.txt
+
+      - name: Compare PR Description and Commit Messages
+        id: compare
+        run: |
+          PR_DESCRIPTION=$(jq -r ".pull_request.body" "$GITHUB_EVENT_PATH")
+          COMMIT_MESSAGES=$(git log --pretty=format:"%s" ${{ github.event.pull_request.head.sha }}..${{ github.event.pull_request.base.sha }})
+          
+          # Example comparison logic (replace with your own)
+          if [[ "$PR_BODY" == *"$COMMIT_MESSAGES"* ]]; then
+            echo "PR description matches commit messages."
+          else
+            echo "PR description does not match commit messages."
+            exit 1
+          fi
 name: Cactus_CI
 'on':
   pull_request:
