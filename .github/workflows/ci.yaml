@@ -48,8 +48,7 @@ jobs:
       - name: Compare PR Description and Commit Messages
         id: compare
         run: |
-          
-          if [[ "$PR_BODY" == *"$COMMIT_MESSAGES"* ]]; then
+          if [ "$PR_BODY" == "$COMMIT_MESSAGES" ]; then
             echo "PR description matches commit messages."
           else
             echo "PR description does not match commit messages."
