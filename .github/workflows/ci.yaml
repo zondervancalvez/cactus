@@ -37,7 +37,7 @@ jobs:
             PR_BODY="${PR_BODY:0:$((delimiter_pos-1))}"
           fi
 
-          echo "$updated_description=$PR_BODY" >> $GITHUB_OUTPUT
+          echo "updated_description=$PR_BODY" >> $GITHUB_OUTPUT
  
       - name: Get branch commit messages
         id: get_branch_commit_messages
