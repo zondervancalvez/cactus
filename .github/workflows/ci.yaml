@@ -48,14 +48,17 @@ jobs:
       - name: Compare PR Description and Commit Messages
         id: compare
         run: |
-          ESCAPED_COMMIT_MESSAGES=$(echo "$COMMIT_MESSAGES" | sed 's/[][\.*^$(){}?+|]/\\&/g')
+          commit_messages=$(<branch_commit_messages.txt)
 
-          if echo "$PR_DESCRIPTION" | grep -qF "$ESCAPED_COMMIT_MESSAGES"; then
-            echo "PR description matches commit messages."
-          else
-            echo "PR description does not match commit messages."
-            exit 1
-          fi
+          while IFS= read -r commit_messages; do
+            if ! grep -qF "$commit_messages" <<< "$PR_BODY"; then
+              echo "PR description does not match commit messages."
+              exit 1
+            fi
+          done <<< "$commit_messages"
+          
+          echo "PR description matches commit messages."
+
 name: Cactus_CI
 'on':
   pull_request:
