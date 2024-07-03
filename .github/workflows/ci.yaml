@@ -36,9 +36,9 @@ jobs:
           if [ $delimiter_pos -gt 0 ]; then
             PR_BODY="${PR_BODY:0:$((delimiter_pos-1))}"
           fi
-          echo "PR_BODY<<EOF" >> $GITHUB_ENV
-          echo "$updated_description" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_OUTPUT
+          echo "updated_description<<EOF" >> $GITHUB_ENV
+          echo "$PR_BODY" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
  
       - name: Get branch commit messages
         id: get_branch_commit_messages
@@ -61,7 +61,7 @@ jobs:
           commit_messages=$(<branch_commit_messages.txt)
 
           while IFS= read -r commit_messages; do
-            if ! grep -qF "$commit_messages" <<< "${{env.updated_description}}"; then
+            if ! grep -qF "$commit_messages" <<< "${{ env.updated_description }}"; then
               echo "PR description does not match commit messages."
               exit 1
             fi
