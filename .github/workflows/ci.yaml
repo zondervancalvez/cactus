@@ -29,6 +29,15 @@ jobs:
       - name: Get PR description
         run: |
           echo "PR desc: ${PR_BODY}"
+
+          delimiter="**"
+          delimiter_pos=$(expr index "$PR_BODY" "$delimiter")
+
+          if [ $delimiter_pos -gt 0 ]; then
+            PR_BODY="${PR_BODY:0:$((delimiter_pos-1))}"
+          fi
+
+          echo "$updated_description=$PR_BODY" >> $GITHUB_OUTPUT
  
       - name: Get branch commit messages
         id: get_branch_commit_messages
@@ -51,7 +60,7 @@ jobs:
           commit_messages=$(<branch_commit_messages.txt)
 
           while IFS= read -r commit_messages; do
-            if ! grep -qF "$commit_messages" <<< "$PR_BODY"; then
+            if ! grep -qF "$commit_messages" <<< "$updated_description"; then
               echo "PR description does not match commit messages."
               exit 1
             fi
