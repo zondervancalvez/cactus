@@ -28,7 +28,6 @@ jobs:
  
       - name: Get PR description
         run: |
-          echo "PR desc: ${PR_BODY}"
 
           delimiter="**"
           delimiter_pos=$(expr index "$PR_BODY" "$delimiter")
@@ -39,6 +38,9 @@ jobs:
           echo "updated_description<<EOF" >> $GITHUB_ENV
           echo "$PR_BODY" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+          
+          echo "PR desc:"
+          echo " ${{ env.updated_description }}""
  
       - name: Get branch commit messages
         id: get_branch_commit_messages
