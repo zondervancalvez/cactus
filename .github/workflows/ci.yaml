@@ -27,8 +27,7 @@ jobs:
           fetch-depth: 0
  
       - name: Get PR description
-        id: pr_description
-        run: echo "description=${{ github.event.pull_request.body }}" >> $GITHUB_OUTPUT
+        run: echo "PR description ${PR_BODY}"
  
       - name: Get branch commit messages
         id: get_branch_commit_messages
@@ -51,7 +50,7 @@ jobs:
           commit_messages=$(<branch_commit_messages.txt)
 
           while IFS= read -r commit_messages; do
-            if ! grep -qF "$commit_messages" <<< "$pr_description"; then
+            if ! grep -qF "$commit_messages" <<< "${PR_BODY}"; then
               echo "PR description does not match commit messages."
               exit 1
             fi
