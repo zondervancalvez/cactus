@@ -28,6 +28,7 @@ jobs:
  
       - name: Get PR description
         run: |
+          echo pr_description=${{ github.event.pull_request.body }}
           start_string="**Pull Request Requirements**"
 
           start_pos=$(echo "$pr_description" | grep -b -m 1 "$start_string" | cut -d: -f1)
@@ -36,7 +37,7 @@ jobs:
             pr_description="${pr_description:0:$start_pos}"
           fi
 
-          echo "$updated_description" > updated_description.txt
+          echo "$pr_description" > updated_description.txt
           echo "PR description:"
           cat updated_description.txt
  
