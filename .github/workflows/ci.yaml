@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Get PR description
         run: |
-          pr_description="${{ github.event.pull_request.body }}"
+          pr_description="${PR_BODY}"
           
           start_string="**Pull Request Requirements**"
 
