@@ -28,7 +28,7 @@ jobs:
  
       - name: Get PR description
         run: |
-          echo pr_description=${{ github.event.pull_request.body }}
+          echo pr_description="${{ github.event.pull_request.body }}"
           start_string="**Pull Request Requirements**"
 
           start_pos=$(echo "$pr_description" | grep -b -m 1 "$start_string" | cut -d: -f1)
