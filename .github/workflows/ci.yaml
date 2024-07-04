@@ -27,7 +27,18 @@ jobs:
           fetch-depth: 0
  
       - name: Get PR description
-        run: echo "PR description ${PR_BODY}"
+        run: |
+          start_string="**Pull Request Requirements**"
+
+          start_pos=$(echo "$pr_description" | grep -b -m 1 "$start_string" | cut -d: -f1)
+
+          if [ $start_pos ]; then
+            pr_description="${pr_description:0:$start_pos}"
+          fi
+
+          echo "$updated_description" > updated_description.txt
+          echo "PR description:"
+          cat updated_description.txt
  
       - name: Get branch commit messages
         id: get_branch_commit_messages
@@ -48,9 +59,10 @@ jobs:
         id: compare
         run: |
           commit_messages=$(<branch_commit_messages.txt)
+          updated_pr=$(<updated_description.txt)
 
           while IFS= read -r commit_messages; do
-            if ! grep -qF "$commit_messages" <<< "${PR_BODY}"; then
+            if ! grep -qF "$commit_messages" <<< "$updated_pr"; then
               echo "PR description does not match commit messages."
               exit 1
             fi
