@@ -66,11 +66,12 @@ jobs:
 
               readarray -t lines1 <<<"$updated_pr"
               readarray -t lines2 <<<"$commit_messages"
-              lines_match="false"
 
               # compare commit messages and pr description line by line
               for i in "${!lines1[@]}"; do
+                echo "FOR LOOP 1"
                 for y in "${!lines2[@]}"; do
+                echo "FOR LOOP 2"
                   if [[ "${lines1[i]}" == "${lines2[y]}" ]]; then
                     echo "****CHECKING**** ${lines1[i]} \n ${lines2[y]}"
                     echo "Match found at line $((i+1)) of updated PR description: ${updated_pr[i]}"
