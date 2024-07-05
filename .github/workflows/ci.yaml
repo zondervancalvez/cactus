@@ -69,25 +69,22 @@ jobs:
               lines_match="false"
 
               # compare commit messages and pr description line by line
-              for i in "${!lines1[@]}"; do
-                for y in "${!lines2[@]}"; do
-                  if [[ "${lines1[i]}" == "${lines2[y]}" ]]; then
+              for i in "${!updated_pr[@]}"; do
+                for y in "${!commit_messages[@]}"; do
+                  if [[ "${updated_pr[i]}" == "${commit_messages[y]}" ]]; then
+                    echo "Match found at line $((i+1)) of updated PR description: ${updated_pr[i]}"
                     lines_match="true"
-                    echo "Match found at ${lines1[i]}"
-                    echo "PR description matches commit messages."
                     break
                   fi
                 done
-
-                if [[ "$lines_match" == "false" ]]; then
-                    echo "Variables does not match line by line."
-                    exit 1
-                else
-                  echo "Variables match line by line."
+                if [ "$lines_match" = "true" ]; then
+                  break
                 fi
               done
-              echo "PR description does not match commit messages."
-              exit 1
+              if [ "$lines_match" = "false" ]; then
+                echo "No match found between updated PR description and commit messages."
+                exit 1
+              fi
             fi
           done <<< "$commit_messages"
           echo "PR description matches commit messages."
