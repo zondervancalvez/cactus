@@ -62,7 +62,7 @@ jobs:
 
           # compare commit messages and pr description
           while IFS= read -r commit_messages; do
-            if ! grep -qF "$commit_messages" <<< "$updated_pr"; then
+            #if grep -qF "$commit_messages" <<< "$updated_pr"; then
 
               readarray -t lines1 <<<"$updated_pr"
               readarray -t lines2 <<<"$commit_messages"
@@ -85,9 +85,9 @@ jobs:
                 echo "No match found between updated PR description and commit messages."
                 exit 1
               fi
-            fi
-          done <<< "$commit_messages"
-          echo "PR description matches commit messages."
+            #fi
+          #done <<< "$commit_messages"
+          #echo "PR description matches commit messages."
 
 name: Cactus_CI
 'on':
