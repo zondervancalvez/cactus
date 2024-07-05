@@ -71,11 +71,15 @@ jobs:
               for i in "${!lines1[@]}"; do
                 for y in "${!lines2[@]}"; do
                   if [[ "${lines1[i]}" == "${lines2[y]}" ]]; then
+                    lines_match="true"
                     echo "Match found at ${lines1[i]}"
                     echo "PR description matches commit messages."
                     break
                   fi
                 done
+                if [[ "$lines_match" == "true" ]]; then
+                  break
+                fi
               done
               echo "PR description does not match commit messages."
               exit 1
