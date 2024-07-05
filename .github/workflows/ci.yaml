@@ -66,6 +66,7 @@ jobs:
 
               readarray -t lines1 <<<"$updated_pr"
               readarray -t lines2 <<<"$commit_messages"
+              lines_match="false"
 
               # compare commit messages and pr description line by line
               for i in "${!lines1[@]}"; do
@@ -77,8 +78,12 @@ jobs:
                     break
                   fi
                 done
-                if [[ "$lines_match" == "true" ]]; then
-                  break
+
+                if [[ "$lines_match" == "false" ]]; then
+                    echo "Variables does not match line by line."
+                    exit 1
+                else
+                  echo "Variables match line by line."
                 fi
               done
               echo "PR description does not match commit messages."
