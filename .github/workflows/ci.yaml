@@ -62,32 +62,28 @@ jobs:
 
           # compare commit messages and pr description
           while IFS= read -r commit_messages; do
-            #if grep -qF "$commit_messages" <<< "$updated_pr"; then
+            readarray -t lines1 <<<"$updated_pr"
+            readarray -t lines2 <<<"$commit_messages"
 
-              readarray -t lines1 <<<"$updated_pr"
-              readarray -t lines2 <<<"$commit_messages"
-
-              # compare commit messages and pr description line by line
-              for i in "${!lines1[@]}"; do
-                for y in "${!lines2[@]}"; do
-                  if [[ "${lines1[i]}" == "${lines2[y]}" ]]; then
-                    echo "****CHECKING**** ${lines1[i]} \n ${lines2[y]}"
-                    echo "Match found at line $((i+1)) of updated PR description: ${updated_pr[i]}"
-                    lines_match="true"
-                    break
-                  fi
-                done
-                if [ "$lines_match" = "true" ]; then
+            # compare commit messages and pr description line by line
+            for i in "${!lines1[@]}"; do
+              for y in "${!lines2[@]}"; do
+                if [[ "${lines1[i]}" == "${lines2[y]}" ]]; then
+                  echo "****CHECKING**** ${lines1[i]} \n ${lines2[y]}"
+                  echo "Match found at line $((i+1)) of updated PR description: ${updated_pr[i]}"
+                  lines_match="true"
                   break
                 fi
               done
-              if [ "$lines_match" = "false" ]; then
-                echo "No match found between updated PR description and commit messages."
-                exit 1
+              if [ "$lines_match" = "true" ]; then
+                break
               fi
-            #fi
-          #done <<< "$commit_messages"
-          #echo "PR description matches commit messages."
+            done
+            if [ "$lines_match" = "false" ]; then
+              echo "No match found between updated PR description and commit messages."
+              exit 1
+            fi
+          done <<< "$commit_messages"
 
 name: Cactus_CI
 'on':
