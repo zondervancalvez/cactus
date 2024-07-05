@@ -69,10 +69,10 @@ jobs:
               lines_match="false"
 
               # compare commit messages and pr description line by line
-              for i in "${!updated_pr[@]}"; do
-                for y in "${!commit_messages[@]}"; do
-                  if [[ "${updated_pr[i]}" == "${commit_messages[y]}" ]]; then
-                    echo "****CHECKING**** ${updated_pr[i]} \n ${commit_messages[y]}"
+              for i in "${!lines1[@]}"; do
+                for y in "${!lines2[@]}"; do
+                  if [[ "${lines1[i]}" == "${lines2[y]}" ]]; then
+                    echo "****CHECKING**** ${lines1[i]} \n ${lines2[y]}"
                     echo "Match found at line $((i+1)) of updated PR description: ${updated_pr[i]}"
                     lines_match="true"
                     break
