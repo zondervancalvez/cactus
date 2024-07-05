@@ -72,6 +72,7 @@ jobs:
               for i in "${!updated_pr[@]}"; do
                 for y in "${!commit_messages[@]}"; do
                   if [[ "${updated_pr[i]}" == "${commit_messages[y]}" ]]; then
+                    echo "****CHECKING**** ${updated_pr[i]} \n ${commit_messages[y]}"
                     echo "Match found at line $((i+1)) of updated PR description: ${updated_pr[i]}"
                     lines_match="true"
                     break
