@@ -60,13 +60,27 @@ jobs:
           commit_messages=$(<branch_commit_messages.txt)
           updated_pr=$(<updated_description.txt)
 
+          # compare commit messages and pr description
           while IFS= read -r commit_messages; do
             if ! grep -qF "$commit_messages" <<< "$updated_pr"; then
+
+              readarray -t lines1 <<<"$updated_pr"
+              readarray -t lines2 <<<"$commit_messages"
+
+              # compare commit messages and pr description line by line
+              for i in "${!lines1[@]}"; do
+                for y in "${!lines2[@]}"; do
+                  if [[ "${lines1[i]}" == "${lines2[y]}" ]]; then
+                    echo "Match found at ${lines1[i]}"
+                    echo "PR description matches commit messages."
+                    break
+                  fi
+                done
+              done
               echo "PR description does not match commit messages."
               exit 1
             fi
           done <<< "$commit_messages"
-          
           echo "PR description matches commit messages."
 
 name: Cactus_CI
