@@ -68,9 +68,9 @@ jobs:
               readarray -t lines2 <<<"$commit_messages"
 
               # compare commit messages and pr description line by line
-              for i in "${!lines1[@]}"; do
-                for y in "${!lines2[@]}"; do
-                  if [[ "${!lines1[i]}" == "${!lines2[y]}" ]]; then
+              for i in "${lines1[@]}"; do
+                for y in "${lines2[@]}"; do
+                  if [[ "${lines1[i]}" == "${lines2[y]}" ]]; then
                     echo "****CHECKING**** ${lines1[i]} \n ${lines2[y]}"
                     echo "Match found at line $((i+1)) of updated PR description: ${updated_pr[i]}"
                     lines_match="true"
