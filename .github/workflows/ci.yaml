@@ -88,6 +88,9 @@ jobs:
             fi
           done <<< "$commit_messages"
           echo "PR description matches commit messages."
+          
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 name: Cactus_CI
 'on':
