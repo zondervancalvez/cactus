@@ -592,14 +592,21 @@ docker run \
     "type": "org.hyperledger.cactus.plugin_import_type.LOCAL",
     "action": "org.hyperledger.cactus.plugin_import_action.INSTALL",
     "options": {
-      "instanceId": "some-unique-fabric-connector-instance-id",
+      "instanceId": "c3334dae-2fc4-4d0d-af91-898cf010ba66",
       "dockerBinary": "usr/local/bin/docker",
       "peerBinary": "/fabric-samples/bin/peer",
       "connectionProfile": {
-        "name": "TODO-FILL-OUT-YOUR-CONNECTION-PROFILE-DETAILS",
-        "version": "TODO-FILL-OUT-YOUR-CONNECTION-PROFILE-DETAILS",
+        "name": "test-network-org1",
+        "version": "1.0.0",
         "organizations": {},
-        "peers": {}
+        "peers": {},
+        "logLevel": "INFO",
+        "pluginRegistry": {
+          "backend": {
+            "key": "user2",
+            "value": "{\"credentials\":{\"certificate\":\"-----BEGIN CERTIFICATE-----\\nMIICfjCCAiSgAwIBAgIUDQx5DavZkmkpfAUQQjbuLfDuQUMwCgYIKoZIzj0EAwIw\\ncDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMQ8wDQYDVQQH\\nEwZEdXJoYW0xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh\\nLm9yZzEuZXhhbXBsZS5jb20wHhcNMjQwODA4MTU1NjAwWhcNMjUwODA4MTYwMTAw\\nWjBBMTAwDQYDVQQLEwZjbGllbnQwCwYDVQQLEwRvcmcxMBIGA1UECxMLZGVwYXJ0\\nbWVudDExDTALBgNVBAMTBHVzZXIwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAS5\\nE8nGDguSTETFBgIe+whwGT4I50n25VbieMlIqcNnBG2SyyS7In6LqZev7+Y6hZEh\\nuCBqlzTg3Hn7BzPnloHeo4HKMIHHMA4GA1UdDwEB/wQEAwIHgDAMBgNVHRMBAf8E\\nAjAAMB0GA1UdDgQWBBSM+FQwcDtXB5GQzNh1+GwhuPdspjAfBgNVHSMEGDAWgBS3\\nGG7ll9py+YoaUnRhs12O8f88ZzBnBggqAwQFBgcIAQRbeyJhdHRycyI6eyJoZi5B\\nZmZpbGlhdGlvbiI6Im9yZzEuZGVwYXJ0bWVudDEiLCJoZi5FbnJvbGxtZW50SUQi\\nOiJ1c2VyIiwiaGYuVHlwZSI6ImNsaWVudCJ9fTAKBggqhkjOPQQDAgNIADBFAiEA\\n/L2w7oJUug3enUVQ4mJYsHPPqneMPFuiBAO1kBSTUxQCIC5jipGSg9TqqIlEWb6+\\n/K9akShKT985cOu+OhEjZFGW\\n-----END CERTIFICATE-----\\n\",\"privateKey\":\"-----BEGIN PRIVATE KEY-----\\r\\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgoAHMVbl7nzzNwVSU\\r\\nZB7PaOzBLRlNg6uCbJMuCKgmi/qhRANCAAS5E8nGDguSTETFBgIe+whwGT4I50n2\\r\\n5VbieMlIqcNnBG2SyyS7In6LqZev7+Y6hZEhuCBqlzTg3Hn7BzPnloHe\\r\\n-----END PRIVATE KEY-----\\r\\n\"},\"mspId\":\"Org1MSP\",\"type\":\"X.509\"}"
+          }
+        }
       },
       "cliContainerEnv": {
         "CORE_PEER_LOCALMSPID": "Org1MSP",
@@ -611,7 +618,21 @@ docker run \
       "discoveryOptions": {
         "enabled": true,
         "asLocalhost": true
-      }
+      },
+    }
+  },
+
+  {
+      "packageName": "@hyperledger/cactus-plugin-keychain-memory",
+      "type": "org.hyperledger.cactus.plugin_import_type.LOCAL",
+      "action": "org.hyperledger.cactus.plugin_import_action.INSTALL",
+      "options": {
+        "backend":{
+            "key": "user2",
+            "value": "{\"credentials\":{\"certificate\":\"-----BEGIN CERTIFICATE-----\\nMIICfjCCAiSgAwIBAgIUDQx5DavZkmkpfAUQQjbuLfDuQUMwCgYIKoZIzj0EAwIw\\ncDELMAkGA1UEBhMCVVMxFzAVBgNVBAgTDk5vcnRoIENhcm9saW5hMQ8wDQYDVQQH\\nEwZEdXJoYW0xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHDAaBgNVBAMTE2Nh\\nLm9yZzEuZXhhbXBsZS5jb20wHhcNMjQwODA4MTU1NjAwWhcNMjUwODA4MTYwMTAw\\nWjBBMTAwDQYDVQQLEwZjbGllbnQwCwYDVQQLEwRvcmcxMBIGA1UECxMLZGVwYXJ0\\nbWVudDExDTALBgNVBAMTBHVzZXIwWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAS5\\nE8nGDguSTETFBgIe+whwGT4I50n25VbieMlIqcNnBG2SyyS7In6LqZev7+Y6hZEh\\nuCBqlzTg3Hn7BzPnloHeo4HKMIHHMA4GA1UdDwEB/wQEAwIHgDAMBgNVHRMBAf8E\\nAjAAMB0GA1UdDgQWBBSM+FQwcDtXB5GQzNh1+GwhuPdspjAfBgNVHSMEGDAWgBS3\\nGG7ll9py+YoaUnRhs12O8f88ZzBnBggqAwQFBgcIAQRbeyJhdHRycyI6eyJoZi5B\\nZmZpbGlhdGlvbiI6Im9yZzEuZGVwYXJ0bWVudDEiLCJoZi5FbnJvbGxtZW50SUQi\\nOiJ1c2VyIiwiaGYuVHlwZSI6ImNsaWVudCJ9fTAKBggqhkjOPQQDAgNIADBFAiEA\\n/L2w7oJUug3enUVQ4mJYsHPPqneMPFuiBAO1kBSTUxQCIC5jipGSg9TqqIlEWb6+\\n/K9akShKT985cOu+OhEjZFGW\\n-----END CERTIFICATE-----\\n\",\"privateKey\":\"-----BEGIN PRIVATE KEY-----\\r\\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgoAHMVbl7nzzNwVSU\\r\\nZB7PaOzBLRlNg6uCbJMuCKgmi/qhRANCAAS5E8nGDguSTETFBgIe+whwGT4I50n2\\r\\n5VbieMlIqcNnBG2SyyS7In6LqZev7+Y6hZEhuCBqlzTg3Hn7BzPnloHe\\r\\n-----END PRIVATE KEY-----\\r\\n\"},\"mspId\":\"Org1MSP\",\"type\":\"X.509\"}"
+          },
+        "keychainId": "deb18f92-088b-4d4e-8c02-2cadeb4aa17a",
+        "instanceId": "c3334dae-2fc4-4d0d-af91-898cf010ba66"
     }
   }
 ]' \
@@ -631,11 +652,11 @@ curl --location --request POST 'http://127.0.0.1:4000/api/v1/plugins/@hyperledge
   "channelName": "mychannel",
   "contractName": "basic",
   "invocationType": "FabricContractInvocationType.SEND",
-  "params": ["some-unique-asset-id-1", "Green", "19", "Peter", "9999"],
+  "params": ["some-unique-asset-id-2", "Green", "19", "Peter", "9999"],
   "methodName": "CreateAsset",
   "signingCredential": {
-    "keychainId": "FIXME",
-    "keychainRef": "FIXME"
+    "keychainId": "deb18f92-088b-4d4e-8c02-2cadeb4aa17a",
+    "keychainRef": "user2"
   }
 }'
 ```
