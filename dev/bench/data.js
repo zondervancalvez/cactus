@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1723798096212,
+  "lastUpdate": 1724146891493,
   "repoUrl": "https://github.com/zondervancalvez/cactus",
   "entries": {
     "Benchmark": [
@@ -245,6 +245,44 @@ window.BENCHMARK_DATA = {
             "range": "±3.85%",
             "unit": "ops/sec",
             "extra": "176 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "adrian.batuto@accenture.com",
+            "name": "adrianbatuto",
+            "username": "adrianbatuto"
+          },
+          "committer": {
+            "email": "petermetz@users.noreply.github.com",
+            "name": "Peter Somogyvari",
+            "username": "petermetz"
+          },
+          "distinct": true,
+          "id": "ec9683d38670fe5d657b602db8215e602fd4209d",
+          "message": "feat(corda): support 5.1 via TS/HTTP (no JVM)\nFixes #2978\nFixes #3293\n\nSigned-off-by: adrianbatuto <adrian.batuto@accenture.com>",
+          "timestamp": "2024-08-19T14:43:10-07:00",
+          "tree_id": "530c66f1928ba9481fcc2d1d760582bf58be6677",
+          "url": "https://github.com/zondervancalvez/cactus/commit/ec9683d38670fe5d657b602db8215e602fd4209d"
+        },
+        "date": 1724146888496,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "cmd-api-server_HTTP_GET_getOpenApiSpecV1",
+            "value": 565,
+            "range": "±1.87%",
+            "unit": "ops/sec",
+            "extra": "176 samples"
+          },
+          {
+            "name": "cmd-api-server_gRPC_GetOpenApiSpecV1",
+            "value": 332,
+            "range": "±2.26%",
+            "unit": "ops/sec",
+            "extra": "179 samples"
           }
         ]
       }
