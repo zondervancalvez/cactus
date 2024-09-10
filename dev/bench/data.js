@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1724147700375,
+  "lastUpdate": 1725941780522,
   "repoUrl": "https://github.com/zondervancalvez/cactus",
   "entries": {
     "Benchmark": [
@@ -314,6 +314,43 @@ window.BENCHMARK_DATA = {
             "range": "±2.91%",
             "unit": "ops/sec",
             "extra": "182 samples"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "jagpreetsinghsasan@accenture.com",
+            "name": "jagpreetsinghsasan"
+          },
+          "committer": {
+            "email": "petermetz@users.noreply.github.com",
+            "name": "Peter Somogyvari",
+            "username": "petermetz"
+          },
+          "distinct": true,
+          "id": "7b327917f580b4a583445dce9b38356c8224ea57",
+          "message": "ci(github): skip commit parity for bots\n\n    Primary Changes\n    ---------------\n    1. Updated the workflow to include a skip\n       when the PR author is dependabot\n    2. Updated the pr-commit parity script to\n       include Levenshtein Distance string metric\n       instead of importing a package to reduce\n       workflow runtime\n\n    Changes required to incorporate 1)\n    3. Updated workflows/pr-commit-parity.yaml with\n       a conditional statement\n\n    Changes required to incorporate 2)\n    4. Updated the script with the functions,\n       levensheteinDistance and stringSimilarity\n       to have the required functionality\n    5. Updated the package.json with removal of the\n       package dependency of string-similarity-js\n    6. Updated the workflow and removed steps to\n       parse the project, thus reducing workflow\n       runtime\n\nFixes #3469\n\nSigned-off-by: jagpreetsinghsasan <jagpreetsinghsasan@accenture.com>",
+          "timestamp": "2024-09-09T11:24:09-07:00",
+          "tree_id": "667a848806e0d2fb3ad30fa2abf242a135a74c3c",
+          "url": "https://github.com/zondervancalvez/cactus/commit/7b327917f580b4a583445dce9b38356c8224ea57"
+        },
+        "date": 1725941777895,
+        "tool": "benchmarkjs",
+        "benches": [
+          {
+            "name": "cmd-api-server_HTTP_GET_getOpenApiSpecV1",
+            "value": 570,
+            "range": "±1.77%",
+            "unit": "ops/sec",
+            "extra": "176 samples"
+          },
+          {
+            "name": "cmd-api-server_gRPC_GetOpenApiSpecV1",
+            "value": 319,
+            "range": "±2.01%",
+            "unit": "ops/sec",
+            "extra": "179 samples"
           }
         ]
       }
