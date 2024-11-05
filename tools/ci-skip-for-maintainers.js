@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-
+import { execSync } from "child_process";
 //A new tag exclusively for MAINTAINERS that allows skipping the CI check
 const SKIP_CACTI = "skip-cacti-ci";
 const MaintainersFile = "MAINTAINERS.md";
@@ -15,41 +15,29 @@ const MAINTAINERS_REGEX = new RegExp(
 const main = async () => {
   const markdownContent = readFileSync(MaintainersFile, "utf-8");
 
-  const args = process.argv.slice(2);
-  const pullReqUrl = args[0];
-  const committerLogin = args[1];
+  // Get the author of the commit message
+  const committerLogin = execSync("git log -1 | grep Author | cut -d' ' -f2")
+    .toString()
+    .trim();
 
-  //Uncomment these lines and change it for local machine testing purposes:
-  //const pullReqUrl = "https://api.github.com/repos/<username>/cactus/pulls/<number>";
-  //const committerLogin = "<username>";
-
-  const fetchJsonFromUrl = async (url) => {
-    const fetchResponse = await fetch(url);
-    return fetchResponse.json();
-  };
-
-  let commitMessageList = [];
-  const commitMessagesMetadata = await fetchJsonFromUrl(
-    pullReqUrl + "/commits",
-  );
-
-  commitMessagesMetadata.forEach((commitMessageMetadata) => {
-    // get commit message body
-    commitMessageList.push(commitMessageMetadata["commit"]["message"]);
-  });
+  let commitMessage = [];
+  try {
+    // Get the latest commit message
+    commitMessage = execSync("git log -1 --pretty=%B").toString().trim();
+    console.log("Latest commit message:\n", commitMessage);
+  } catch (error) {
+    console.error("Error fetching commit message:\n", error.message);
+  }
 
   // Check if skip-ci is found in commit message
   const checkSkipCI = () => {
-    for (let commitMessageListIndex in commitMessageList) {
-      let commitMessage = commitMessageList[commitMessageListIndex];
-      if (commitMessage.includes(SKIP_CACTI)) {
-        console.log("Skip requested in commit message.");
-        return true;
-      } else {
-        console.log("No skip request found.");
-      }
-      return false;
+    if (commitMessage.includes(SKIP_CACTI)) {
+      console.log("Skip requested in commit message.");
+      return true;
+    } else {
+      console.log("No skip request found.");
     }
+    return false;
   };
 
   // Function to extract active maintainers
