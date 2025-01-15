@@ -1,6 +1,7 @@
 - [Hyperledger Cacti Build Instructions](#hyperledger-cacti-build-instructions)
 - [Fast Developer Flow / Code Iterations](#fast-developer-flow--code-iterations)
 - [Getting Started](#getting-started)
+  - [Quickstart with VSC Devcontainer for Hyperledger Cactus](#quickstart-with-vsc-devcontainer-for-hyperledger-cactus)
   - [MacOS](#macos)
   - [Linux](#linux)
   - [Windows](#windows)
@@ -39,6 +40,39 @@ The `npm run watch` script in action:
 ![Fast Developer Flow / Code Iterations](./docs/hyperledger-cactus-watch-script-tutorial-2021-03-06.gif)
 
 ## Getting Started
+
+### Quickstart with VSC Devcontainer for Hyperledger Cactus
+
+* Opening the Repo Within a Docker Container
+  * Install Prerequisites:
+    * Visual Studio Code (VSC)
+    * Docker Desktop (ensure it's running) https://docs.docker.com/engine/install/
+    * The Remote - Containers VSC extension
+  * Clone the Repository:
+    ```
+    git clone https://github.com/hyperledger-cacti/cacti.git
+    cd cacti
+    ```
+  * Open in VSC and Reopen in Container:
+    * Launch VSC
+    * Open the cacti folder
+    * Press Ctrl+Shift+P → Select Reopen in Container.
+  * Wait for the Container Setup:
+    * The devcontainer will install all required dependencies inside the container.
+* Cloning the Repo to a Docker Volume
+  * Clone the Repo Using Docker Volume:
+    ```
+    docker volume create cacti_volume
+    docker run -v cacti_volume:/workspace -w /workspace -it node:latest bash
+    git clone https://github.com/hyperledger-cacti/cacti.git
+    ```
+  * Attach VSC to the Running Container:
+    * Open VSC.
+    * Press Ctrl+Shift+P → Select Remote-Containers: Attach to Running Container.
+    * Choose the container created earlier.
+  * Start Developing:
+    * The container will have all necessary dependencies pre-installed.
+
 
 ### MacOS 
 
